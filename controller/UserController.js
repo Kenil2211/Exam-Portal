@@ -44,3 +44,32 @@ exports.registerUser = async(req, res) => {
 
 
 }
+
+exports.getUserProfile = async(req,res)=>{
+
+    console.log('user token',req.body)
+    
+    const userToken = await req.body.token
+    if(userToken!==undefined)
+    {
+        const decode_token= await jwt.verifyToken(userToken)
+        res.status(200).json({
+            statusCode: 201,
+            data:decode_token
+        })
+    }else{
+        res.status(401).json({
+            statusCode: 401,
+            error: {
+                message: "Error in Logging In user",
+                fields: [
+                    {
+                        type: "Invalid Credentials"
+                    }
+                ]
+            },
+        }) 
+    }
+
+    
+}

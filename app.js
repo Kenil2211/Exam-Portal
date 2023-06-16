@@ -11,11 +11,15 @@ app.use(express.urlencoded({extended:true}))
 app.use(cors())
 
 const userRoute = require('./routes/UserRoute')
+const examRoute = require('./routes/ExamRoutes')
 
 
 const baseUrl = '/api/v1/';
 app.use(baseUrl +'auth/',userRoute)
-app.use('/user',userRoute)
+app.use(baseUrl+'user/',userRoute)
+app.use(baseUrl+'option/',examRoute)
+app.use(baseUrl+'question/',examRoute)
+app.use(baseUrl+'exam/',examRoute)
 
 
 //CONNECT WITH DATABASE
