@@ -12,6 +12,8 @@ router.post('/create',tokenValidator.tokenValidator,adminValidator.isAdmin,examC
 
 //Question Routes
 router.post('/question', tokenValidator.tokenValidator,adminValidator.isAdmin,examController.addQuestion)
+router.get('/question/:id',tokenValidator.tokenValidator,adminValidator.isAdmin,examController.removeQuestion)
+router.post('/question/update/:id',examController.updateQuestion)
 
 
 //Option Routes

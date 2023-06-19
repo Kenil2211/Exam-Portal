@@ -11,10 +11,7 @@ async function addExam(exam) {
 
     } catch (error) {
         console.log('error', error)
-        res.status(500).json({
-            error: error,
-            message: "Error in adding exam"
-        })
+        throw error;
     }
 
 }
@@ -61,6 +58,79 @@ exports.addQuestion = async (req, res) => {
             error: err
         })
     })
+}
+
+async function deleteQuestion(id)
+{
+    try{
+
+        const question = await questionSchema.findByIdAndDelete(id)
+        return question;
+
+    }catch(err)
+    {
+        console.log('error',err)
+        throw err;
+    }
+}
+
+exports.removeQuestion=async(req,res)=>{
+
+    try{
+
+        var qid = req.params.id
+        const deleted_question = await deleteQuestion(qid)
+
+        res.status(200).json({
+            message:"Question deleted Successfully",
+        })
+    }catch(error)
+    {
+        res.status(500).json({
+            message:"Error in deleting question",
+            error:error
+        })
+    }
+
+}
+
+async function getQuestion(id)
+{
+    try{
+
+        const question = await questionSchema.findById(id);
+        console.log('inital question',question)
+        return question;
+
+    }catch(err)
+    {
+        console.log('error',err)
+        throw err;
+    }
+}
+
+exports.updateQuestion=async(req,res)=>{
+
+    try{
+        var qid=req.params.id;
+        const question = await getQuestion(qid);
+        await question.updateOne({
+            "question":req.body.question,
+            "options":req.body.options,
+            "correctOption":req.body.correctOption
+        })
+        
+        res.status(200).json({
+            message:"Question Updated Successfully",
+        })
+    }
+    catch(err)
+    {
+        res.status(500).json({
+            message:"Error in updating question",
+            error:err
+        })
+    }
 }
 
 // Options Controller
